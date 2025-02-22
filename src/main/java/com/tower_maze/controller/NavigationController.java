@@ -33,7 +33,8 @@ public class NavigationController {
     public List<Integer> getValidMoves() {
         List<Integer> moves = new ArrayList<>();
         if (currentRoom == -1) {
-            moves = List.of(2, 41, 43, 97);
+            // Lobby connects to first, middle1, middle2, last primes
+            return List.of(tower.firstPrime, tower.middlePrime1, tower.middlePrime2, tower.lastPrime);
         } else {
             Floor currentFloor = tower.getFloorByRoom(currentRoom);
             if (currentFloor == null) {

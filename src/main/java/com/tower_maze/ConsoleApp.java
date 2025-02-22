@@ -36,10 +36,12 @@ public class ConsoleApp {
             int target = validMoves.get(choice - 1);
             boolean won = navController.moveToRoom(target);
             
+            /* 
             if (won) {
                 System.out.println("\n=== CONGRATULATIONS! You returned to the Lobby! ===");
                 break;
             }
+            */
         }
     }
 
@@ -52,14 +54,11 @@ public class ConsoleApp {
     }
 
     private static void printValidMoves(List<Integer> moves) {
-        if (moves.isEmpty()) {
-            System.out.println("No valid moves available. This is a bug!");
-            return;
-        }
-        
         System.out.println("Available moves:");
         for (int i = 0; i < moves.size(); i++) {
-            System.out.printf("%d. Go to %d\n", i + 1, moves.get(i));
+            int target = moves.get(i);
+            String displayName = (target == -1) ? "Lobby" : String.valueOf(target);
+            System.out.printf("%d. Go to %s\n", i + 1, displayName);
         }
         System.out.println("0. Exit");
         System.out.print("Choose an option: ");

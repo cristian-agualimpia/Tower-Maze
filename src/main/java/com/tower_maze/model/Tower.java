@@ -15,6 +15,10 @@ public class Tower {
     private Queue<Integer> unassignedNonPrimes;
     private List<Integer> allPrimes;
     private double averagePrime;
+    public int firstPrime = 2;
+    public int middlePrime1 = 41;
+    public int middlePrime2 = 43;
+    public int lastPrime = 97;
 
     public Tower() {
         this.floors = new HashMap<>();
@@ -22,6 +26,13 @@ public class Tower {
         this.unassignedNonPrimes = new LinkedList<>();
         this.allPrimes = PrimeUtils.generatePrimes(100);
         this.averagePrime = PrimeUtils.calculateAveragePrime(allPrimes);
+        
+
+        firstPrime = allPrimes.get(0);
+        lastPrime = allPrimes.get(allPrimes.size() - 1);
+        int middleIndex = allPrimes.size() / 2;
+        middlePrime1 = allPrimes.get(middleIndex - 1); // e.g., 41
+        middlePrime2 = allPrimes.get(middleIndex);      // e.g., 43
         initializeFloors();
     }
 
@@ -34,7 +45,16 @@ public class Tower {
             for (int i = 0; i < 3 && !nonPrimes.isEmpty(); i++) {
                 floorNonPrimes.add(nonPrimes.poll());
             }
+
+            
             List<Integer> elevators = calculateElevators(prime);
+
+            // Add lobby (-1) to elevator connections for specific primes
+            if (prime == firstPrime || prime == middlePrime1 
+                || prime == middlePrime2 || prime == lastPrime) {
+                elevators.add(-1); // -1 represents the lobby
+            }
+
             Floor floor = new Floor(prime, floorNonPrimes, elevators, null); // Stairs set later
             floors.put(prime, floor);
             for (int room : floor.getRooms()) {
@@ -48,15 +68,17 @@ public class Tower {
             System.out.println("Room " + entry.getKey() + " → Floor " + entry.getValue());
         }
     
-        // Second pass: Link stairs
+        // Second pass: Set stairs connections
         for (int i = 0; i < allPrimes.size(); i++) {
-            Floor currentFloor = floors.get(allPrimes.get(i));
+            int prime = allPrimes.get(i);
+            Floor currentFloor = floors.get(prime);
             if (i + 1 < allPrimes.size()) {
-                Floor nextFloor = floors.get(allPrimes.get(i + 1));
-                int currentLastRoom = currentFloor.getRooms().get(3); // e.g., room 6 in floor 2
-                int nextLastRoom = nextFloor.getRooms().get(3); // e.g., room 10 in floor 3
+                int nextPrime = allPrimes.get(i + 1);
+                Floor nextFloor = floors.get(nextPrime);
+                int currentLastRoom = currentFloor.getRooms().get(currentFloor.getRooms().size() - 1);
+                int nextLastRoom = nextFloor.getRooms().get(nextFloor.getRooms().size() - 1);
                 if (currentLastRoom % 2 == nextLastRoom % 2) {
-                    currentFloor.setStairsTarget(nextLastRoom); // Link stairs
+                    currentFloor.setStairsTarget(nextLastRoom);
                 }
             }
         }
