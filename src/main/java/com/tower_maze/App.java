@@ -11,12 +11,16 @@ import javafx.scene.Scene;
 import javafx.stage.Stage;
 
 public class App extends Application {
+
+    
+
     @Override
     public void start(Stage stage) throws Exception {
         Tower tower = new Tower();
         NavigationController navController = new NavigationController(tower);
 
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("/game-view.fxml"));
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("C:\\Users\\esteb\\OneDrive\\Escritorio\\ESTRUCTURAS DE DATOS\\MULTIVERSO\\demo\\src\\main\\resources\\com\\tower_maze\\game-view.fxml"));
+
         Parent root = loader.load();
 
         GameController gameController = loader.getController();

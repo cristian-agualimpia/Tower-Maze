@@ -32,28 +32,30 @@ public class NavigationController {
 
     public List<Integer> getValidMoves() {
         List<Integer> moves = new ArrayList<>();
-        if (currentRoom == -1) return List.of(2, 41, 43, 97);
-    
-        Floor currentFloor = tower.getFloorByRoom(currentRoom);
-        if (currentFloor == null) return moves;
-    
-        // Elevators
-        moves.addAll(currentFloor.getElevatorConnections());
-    
-        // Stairs (check parity)
-        if (currentFloor.getStairsTarget() != null) {
-            int currentLastRoom = currentFloor.getRooms().get(currentFloor.getRooms().size() - 1);
-            Floor targetFloor = tower.getFloorByRoom(currentFloor.getStairsTarget());
-            if (targetFloor != null) {
-                int targetLastRoom = targetFloor.getRooms().get(targetFloor.getRooms().size() - 1);
-                if (currentLastRoom % 2 == targetLastRoom % 2) {
-                    moves.add(targetLastRoom);
-                }
+        if (currentRoom == -1) {
+            moves = List.of(2, 41, 43, 97);
+        } else {
+            Floor currentFloor = tower.getFloorByRoom(currentRoom);
+            if (currentFloor == null) {
+                System.out.println("[ERROR] Floor not found for room " + currentRoom);
+                return moves;
+            }
+            System.out.println("[DEBUG] Current floor: " + currentFloor.getPrime());
+            System.out.println("[DEBUG] Corridor connections: " + currentFloor.getCorridorConnections(currentRoom));
+            System.out.println("[DEBUG] Stairs target: " + currentFloor.getStairsTarget());
+            
+            // Add elevator connections (only if current room is the prime)
+            if (currentRoom == currentFloor.getPrime()) {
+                moves.addAll(currentFloor.getElevatorConnections());
+            }
+            // Add corridor connections
+            moves.addAll(currentFloor.getCorridorConnections(currentRoom));
+            // Add stairs connection
+            if (currentFloor.getStairsTarget() != null) {
+                moves.add(currentFloor.getStairsTarget());
             }
         }
-    
-        // Filter previous room
-        moves.removeIf(room -> room == previousRoom);
+        System.out.println("[DEBUG] Final valid moves: " + moves);
         return moves;
     }
 
@@ -63,7 +65,7 @@ public class NavigationController {
         return checkWinCondition();
     }
 
-    private boolean checkWinCondition() {
+    public boolean checkWinCondition() {
         return (currentRoom == -1 && List.of(2, 41, 43, 97).contains(previousRoom));
     }
 }

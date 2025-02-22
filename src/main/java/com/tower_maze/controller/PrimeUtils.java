@@ -45,4 +45,26 @@ public class PrimeUtils {
     public static double calculateAveragePrime(List<Integer> primes) {
         return primes.stream().mapToInt(Integer::intValue).average().orElse(0);
     }
+
+    // Modified method to accept range
+    public static List<Integer> generatePrimes(int start, int end) {
+        boolean[] isPrime = new boolean[end + 1];
+        Arrays.fill(isPrime, true);
+        isPrime[0] = isPrime[1] = false;
+        
+        for (int i = 2; i * i <= end; i++) {
+            if (isPrime[i]) {
+                int startMultiple = Math.max(i * i, start);
+                for (int j = startMultiple; j <= end; j += i) {
+                    isPrime[j] = false;
+                }
+            }
+        }
+        
+        List<Integer> primes = new ArrayList<>();
+        for (int i = Math.max(2, start); i <= end; i++) {
+            if (isPrime[i]) primes.add(i);
+        }
+        return primes;
+    }
 }

@@ -27,8 +27,9 @@
                text="" 
                styleClass="status-label"/>
     </bottom>
-
+<!-- 
     <stylesheets>
         <URL value="@style.css"/>
     </stylesheets>
+    -->
 </BorderPane>
