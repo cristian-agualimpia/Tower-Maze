@@ -14,20 +14,29 @@ public class ConsoleApp {
         Tower tower = new Tower();
         navController = new NavigationController(tower);
         System.out.println("=== Welcome to Tower Maze ===");
-        gameLoop();
+        gameLoop(tower);
     }
 
-    private static void gameLoop() {
+    private static void gameLoop(Tower tower) {
         while (true) {
             printCurrentLocation();
+            
             List<Integer> validMoves = navController.getValidMoves();
             
+            if (navController.getCurrentRoom() == -1){
+                System.out.println("Do you want to extend the tower? Choose True or False");
+                Boolean extend = scanner.nextBoolean();
+                if (extend){
+                    tower.autoExpandTower();
+                    validMoves = navController.getValidMoves();
+                }
+            }
             // Debug: Print raw moves list
             System.out.println("[DEBUG] Raw valid moves: " + validMoves);
             
             printValidMoves(validMoves);
             int choice = getPlayerChoice(validMoves.size());
-            
+
             if (choice == 0) {
                 System.out.println("Exiting game...");
                 break;
@@ -44,6 +53,7 @@ public class ConsoleApp {
             */
         }
     }
+    
 
     private static void printCurrentLocation() {
         int current = navController.getCurrentRoom();

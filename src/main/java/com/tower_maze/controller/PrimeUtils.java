@@ -48,23 +48,18 @@ public class PrimeUtils {
 
     // Modified method to accept range
     public static List<Integer> generatePrimes(int start, int end) {
-        boolean[] isPrime = new boolean[end + 1];
-        Arrays.fill(isPrime, true);
-        isPrime[0] = isPrime[1] = false;
-        
-        for (int i = 2; i * i <= end; i++) {
-            if (isPrime[i]) {
-                int startMultiple = Math.max(i * i, start);
-                for (int j = startMultiple; j <= end; j += i) {
-                    isPrime[j] = false;
-                }
-            }
-        }
-        
         List<Integer> primes = new ArrayList<>();
         for (int i = Math.max(2, start); i <= end; i++) {
-            if (isPrime[i]) primes.add(i);
+            if (isPrime(i)) primes.add(i);
         }
         return primes;
+    }
+    
+    private static boolean isPrime(int n) {
+        if (n <= 1) return false;
+        for (int i = 2; i <= Math.sqrt(n); i++) {
+            if (n % i == 0) return false;
+        }
+        return true;
     }
 }

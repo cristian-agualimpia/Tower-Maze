@@ -39,10 +39,15 @@ public class Floor {
         }
     }
 
+    public void setElevatorConnections(List<Integer> newElevators) {
+        this.elevatorConnections = new ArrayList<>(newElevators); // Defensive copy
+    }
+
     // Get corridor connections for a specific room
     public List<Integer> getCorridorConnections(int room) {
         return corridorConnections.getOrDefault(room, Collections.emptyList());
     }
+
 
     // Getters (existing code)
     public List<Integer> getRooms() { return rooms; }

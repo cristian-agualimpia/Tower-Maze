@@ -1,26 +1,38 @@
-.root-pane {
-    -fx-padding: 20;
-    -fx-background-color: #f0f0f0;
-}
+/* style.css */
 
-.header-label {
-    -fx-font-size: 20px;
-    -fx-font-weight: bold;
-    -fx-text-fill: #2c3e50;
-}
-
-.button {
-    -fx-background-color: #3498db;
-    -fx-text-fill: white;
+/* Estilo global (aplica a toda la raíz de la escena) */
+.root {
+    -fx-background-color: #F9F9F9;
+    -fx-font-family: "Segoe UI", "Arial", sans-serif;
     -fx-font-size: 14px;
-    -fx-pref-width: 120px;
+    -fx-padding: 10;
 }
 
-.button:hover {
-    -fx-background-color: #2980b9;
-}
-
-.status-label {
+/* Estilo para el Label con fx:id="lblLocation". 
+   Notar que usamos # para referirnos a un ID (fx:id). */
+#lblLocation {
+    -fx-text-fill: #333;
+    -fx-font-weight: bold;
     -fx-font-size: 16px;
-    -fx-text-fill: #e74c3c;
+}
+
+/* Estilo para todos los botones */
+.button {
+    -fx-background-color: #6200EE;  /* Morado */
+    -fx-text-fill: white;
+    -fx-font-weight: bold;
+    -fx-cursor: hand;            /* Cambia el cursor al pasar */
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.5), 4, 0, 0, 2);
+    -fx-background-radius: 4;
+}
+
+/* Ajustes para el ListView */
+.list-view {
+    -fx-background-color: #FFFFFF; 
+    -fx-border-color: #CCC;       
+}
+
+/* Opcional: estilizar cada celda (ListCell) */
+.list-cell {
+    -fx-padding: 8;
 }
